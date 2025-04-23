@@ -99,16 +99,7 @@ export default function Dashboard() {
         <div className="flex justify-between items-center p-4 md:p-6 border-b">
           <h1 className="text-xl font-semibold text-[#664895]">Employee Payment Report</h1>
           <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              className="flex items-center gap-2 border-[#664895] text-[#664895] hover:bg-[#664895] hover:text-white"
-              asChild
-            >
-              <Link href="/outstanding-report">
-                <FileText className="h-4 w-4" />
-                Outstanding Report
-              </Link>
-            </Button>
+            
             {session?.user?.role === "admin" && (
               <Button
                 variant="outline"
