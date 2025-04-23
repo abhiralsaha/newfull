@@ -129,28 +129,9 @@ export default function OutstandingReport() {
             <Card className="border-white">
               <CardContent className="p-4 flex items-center gap-4">
                 <div className="bg-[#f1f5f9] p-3 rounded-full">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="text-gray-600"
-                  >
-                    <path d="M18 8c0 2.21-1.79 4-4 4s-4-1.79-4-4 1.79-4 4-4 4 1.79 4 4z" />
-                    <path d="M12 12v8" />
-                    <path d="M8 16h8" />
-                    <path d="M3 10h3" />
-                    <path d="M3 14h3" />
-                    <path d="M3 18h3" />
-                    <path d="M21 10h-3" />
-                    <path d="M21 14h-3" />
-                    <path d="M21 18h-3" />
-                  </svg>
+                <img src="/icons/bag-icon.png" alt="Total Collection Icon" className="w-6 h-6" />
+
+                   
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">
@@ -166,21 +147,9 @@ export default function OutstandingReport() {
             <Card className="border-white">
               <CardContent className="p-4 flex items-center gap-4">
                 <div className="bg-green-100 p-3 rounded-full">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="text-green-500"
-                  >
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                    <polyline points="22 4 12 14.01 9 11.01" />
-                  </svg>
+                <img src="/icons/check-icon.png" alt="Total Deposit Icon" className="w-6 h-6" />
+
+                   
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">
@@ -196,21 +165,8 @@ export default function OutstandingReport() {
             <Card className="border-white">
               <CardContent className="p-4 flex items-center gap-4">
                 <div className="bg-red-50 p-3 rounded-full">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="text-red-500"
-                  >
-                    <circle cx="8" cy="8" r="6" />
-                    <circle cx="16" cy="16" r="6" />
-                  </svg>
+                <img src="/icons/coin-icon.png" alt="Difference Amount Icon" className="w-6 h-6" />
+                   
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">

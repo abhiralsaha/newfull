@@ -1,17 +1,18 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { X, FileText } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import Image from "next/image"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
+import { useSession } from "next-auth/react"
+import { X, FileText } from "lucide-react"
 import { getPaymentReport } from "@/lib/actions/report-actions"
 import { getEmployees } from "@/lib/actions/employee-actions"
-import { EmployeeDataModal } from "@/components/employee-data-modal"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Button } from "@/components/ui/button"
 import { useToast } from "@/components/ui/use-toast"
-import { useSession } from "next-auth/react"
-import { useRouter } from "next/navigation"
+import { EmployeeDataModal } from "@/components/employee-data-modal"
 
 export default function Dashboard() {
   const { data: session, status } = useSession()
@@ -53,15 +54,12 @@ export default function Dashboard() {
         })
       } else {
         setReportData(reportResult)
-
-        // Flatten the report data for the table
         const flattenedData = []
         reportResult.report.forEach((employeeReport) => {
           employeeReport.rows.forEach((row) => {
             flattenedData.push(row)
           })
         })
-
         setTableData(flattenedData)
       }
 
@@ -127,32 +125,10 @@ export default function Dashboard() {
         </div>
 
         {/* Summary Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 p-4 md:p-6">
-          {/* Total Collection Card */}
+        <div className="grid grid-cols-1 md:grid-cols-6 gap-4 md:gap-6 p-4 md:p-6">
           <div className="bg-gray-50 rounded-lg p-4 flex items-center">
             <div className="bg-gray-100 p-3 rounded-full mr-4">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-gray-600"
-              >
-                <path d="M18 8c0 2.21-1.79 4-4 4s-4-1.79-4-4 1.79-4 4-4 4 1.79 4 4z" />
-                <path d="M12 12v8" />
-                <path d="M8 16h8" />
-                <path d="M3 10h3" />
-                <path d="M3 14h3" />
-                <path d="M3 18h3" />
-                <path d="M21 10h-3" />
-                <path d="M21 14h-3" />
-                <path d="M21 18h-3" />
-              </svg>
+              <Image src="/icons/bag-icon.png" alt="Total Collection Icon" width={32} height={32} />
             </div>
             <div>
               <p className="text-gray-600 text-sm">Total Collection (MM) Amount</p>
@@ -160,24 +136,9 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Total Deposit Card */}
           <div className="bg-gray-50 rounded-lg p-4 flex items-center">
             <div className="bg-green-100 p-3 rounded-full mr-4">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-green-500"
-              >
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                <polyline points="22 4 12 14.01 9 11.01" />
-              </svg>
+              <Image src="/icons/check-icon.png" alt="Total Deposit Icon" width={32} height={32} />
             </div>
             <div>
               <p className="text-gray-600 text-sm">Total Deposit Amount</p>
@@ -185,24 +146,9 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Difference Card */}
           <div className="bg-gray-50 rounded-lg p-4 flex items-center">
             <div className="bg-red-50 p-3 rounded-full mr-4">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-red-500"
-              >
-                <circle cx="8" cy="8" r="6" />
-                <circle cx="16" cy="16" r="6" />
-              </svg>
+              <Image src="/icons/coin-icon.png" alt="Difference Icon" width={32} height={32} />
             </div>
             <div>
               <p className="text-gray-600 text-sm">Difference Amount</p>
@@ -212,153 +158,93 @@ export default function Dashboard() {
         </div>
 
         {/* Data Table */}
-        <div className="p-4 md:p-6">
-          <div className="rounded-lg border overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow className="bg-gray-50">
-                  <TableHead className="text-gray-600 font-medium">Location</TableHead>
-                  <TableHead className="text-gray-600 font-medium">Emp. ID</TableHead>
-                  <TableHead className="text-gray-600 font-medium">Emp. Name</TableHead>
-                  <TableHead className="text-gray-600 font-medium">Collections (MM)</TableHead>
-                  <TableHead className="text-gray-600 font-medium">Date</TableHead>
-                  <TableHead className="text-gray-600 font-medium">Cash Deposit</TableHead>
-                  <TableHead className="text-gray-600 font-medium">Deposit Date</TableHead>
-                  <TableHead className="text-gray-600 font-medium">Difference</TableHead>
+        <div className="p-4 md:p-6 overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Employee</TableHead>
+                <TableHead>Date</TableHead>
+                <TableHead>MM Collection</TableHead>
+                <TableHead>Cash Deposit</TableHead>
+                <TableHead>Difference</TableHead>
+                <TableHead>Remarks</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {isLoading ? (
+                <TableRow>
+                  <TableCell colSpan={6} className="text-center py-4">
+                    Loading...
+                  </TableCell>
                 </TableRow>
-              </TableHeader>
-              <TableBody>
-                {isLoading ? (
-                  <TableRow>
-                    <TableCell colSpan={8} className="text-center py-4">
-                      Loading...
+              ) : paginatedData.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={6} className="text-center py-4">
+                    No data available
+                  </TableCell>
+                </TableRow>
+              ) : (
+                paginatedData.map((row, index) => (
+                  <TableRow key={index}>
+                    <TableCell>{row.empName}</TableCell>
+                    <TableCell>{row.date}</TableCell>
+                    <TableCell>₹{row.collections?.toLocaleString() || "-"}</TableCell>
+                    <TableCell>₹{row.cashDeposit?.toLocaleString() || "-"}</TableCell>
+                    <TableCell className={row.difference !== "-" ? "text-red-500" : "text-green-600"}>
+                      ₹{row.difference}
                     </TableCell>
+                    <TableCell>{row.remarks || "-"}</TableCell>
                   </TableRow>
-                ) : paginatedData.length === 0 ? (
-                  <TableRow>
-                    <TableCell colSpan={8} className="text-center py-4">
-                      No data available
-                    </TableCell>
-                  </TableRow>
-                ) : (
-                  paginatedData.map((row, index) => (
-                    <TableRow key={index} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
-                      <TableCell>{row.location}</TableCell>
-                      <TableCell>{row.empId}</TableCell>
-                      <TableCell>{row.empName}</TableCell>
-                      <TableCell>{row.collections?.toLocaleString() || ""}</TableCell>
-                      <TableCell>{row.date || ""}</TableCell>
-                      <TableCell>{row.cashDeposit?.toLocaleString() || ""}</TableCell>
-                      <TableCell>{row.depositDate || ""}</TableCell>
-                      <TableCell>{row.difference}</TableCell>
-                    </TableRow>
-                  ))
-                )}
-              </TableBody>
-            </Table>
-          </div>
+                ))
+              )}
+            </TableBody>
+          </Table>
         </div>
 
         {/* Pagination */}
-        <div className="p-4 md:p-6 border-t flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="flex justify-between items-center p-4 md:p-6 border-t">
           <div className="flex items-center space-x-2">
-            <span className="text-sm text-gray-600">Show</span>
+            <span className="text-sm text-gray-700">Rows per page:</span>
             <Select value={rowsPerPage.toString()} onValueChange={handleRowsPerPageChange}>
-              <SelectTrigger className="w-16 h-8">
-                <SelectValue placeholder={rowsPerPage.toString()} />
+              <SelectTrigger className="w-20">
+                <SelectValue />
               </SelectTrigger>
               <SelectContent>
+                <SelectItem value="5">5</SelectItem>
                 <SelectItem value="10">10</SelectItem>
                 <SelectItem value="20">20</SelectItem>
-                <SelectItem value="50">50</SelectItem>
               </SelectContent>
             </Select>
-            <span className="text-sm text-gray-600">Rows</span>
           </div>
-
-          <div className="flex items-center space-x-1">
-            <button
-              className="p-1 rounded hover:bg-gray-100 text-gray-400"
-              onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+          <div className="text-sm text-gray-700">
+            Page {currentPage} of {totalPages}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
               disabled={currentPage === 1}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <polyline points="15 18 9 12 15 6" />
-              </svg>
-            </button>
-
-            {Array.from({ length: Math.min(5, totalPages) }).map((_, i) => {
-              const pageNumber = i + 1
-              return (
-                <button
-                  key={pageNumber}
-                  className={`w-8 h-8 flex items-center justify-center rounded ${
-                    pageNumber === currentPage ? "bg-[#ee632b] text-white" : "hover:bg-gray-100 text-gray-700"
-                  }`}
-                  onClick={() => setCurrentPage(pageNumber)}
-                >
-                  {pageNumber}
-                </button>
-              )
-            })}
-
-            {totalPages > 5 && (
-              <>
-                <span className="text-gray-400">...</span>
-
-                <button
-                  className="w-8 h-8 flex items-center justify-center rounded hover:bg-gray-100 text-gray-700"
-                  onClick={() => setCurrentPage(totalPages)}
-                >
-                  {totalPages}
-                </button>
-              </>
-            )}
-
-            <button
-              className="p-1 rounded hover:bg-gray-100 text-gray-700"
-              onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+              Prev
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
               disabled={currentPage === totalPages}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <polyline points="9 18 15 12 9 6" />
-              </svg>
-            </button>
+              Next
+            </Button>
           </div>
         </div>
       </div>
 
-      {/* Employee Data Modal */}
-      {isModalOpen && (
-        <EmployeeDataModal
-          isOpen={isModalOpen}
-          onClose={() => {
-            setIsModalOpen(false)
-            fetchData() // Refresh data after modal closes
-          }}
-          employees={employees}
-        />
-      )}
+      {/* Modal for inserting employee data */}
+      <EmployeeDataModal
+        isOpen={isModalOpen}
+        setIsOpen={setIsModalOpen}
+        employees={employees}
+        refreshData={fetchData}
+      />
     </div>
   )
 }
